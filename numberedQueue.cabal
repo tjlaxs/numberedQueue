@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 290cdffe219db9b40a7b5840128c5964d00de5fb07d56a363e8a8c4640ad9ba8
+-- hash: d5dabec5f6e873d1d23b65997dae02d5f7cfdffcd08dd49086d4cdcd4f0be9dc
 
 name:           numberedQueue
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       HeartBeat
       Listener
       Message
+      MsgChan
       Utils
   other-modules:
       Paths_numberedQueue
@@ -42,6 +43,7 @@ library
     , say
     , stm
     , text
+    , warp
   default-language: Haskell2010
 
 executable numberedQueue-exe
@@ -58,6 +60,7 @@ executable numberedQueue-exe
     , say
     , stm
     , text
+    , warp
   default-language: Haskell2010
 
 test-suite numberedQueue-test
@@ -75,4 +78,5 @@ test-suite numberedQueue-test
     , say
     , stm
     , text
+    , warp
   default-language: Haskell2010

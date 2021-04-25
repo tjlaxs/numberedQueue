@@ -7,17 +7,17 @@ import Control.Concurrent.STM (atomically)
 import Control.Concurrent.STM.TQueue (TQueue, writeTQueue)
 import Control.Concurrent.STM.TVar (TVar)
 import Control.Monad (forever)
+import Data.Text (Text)
 import Say (say)
 
-import Utils
+import Utils (seconds)
 import Message (Message(HeartBeat))
+import MsgChan (MsgChan, writeMessage)
 
 -- | Queues a HeartBeat message every second
-heartBeat :: TQueue Message -> TVar Int -> IO ()
-heartBeat q cnt = do
+heartBeat :: MsgChan Integer (Message Integer Text) -> IO ()
+heartBeat chn = do
   say "Starting heart beat..."
   forever $ do
-    atomically $ do 
-      n <- advance cnt
-      writeTQueue q (HeartBeat n)
+    atomically $ writeMessage chn HeartBeat
     threadDelay $ seconds 1

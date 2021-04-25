@@ -1,21 +1,22 @@
 module Handler (handler) where
 
 import Control.Concurrent.STM (atomically)
-import Control.Concurrent.STM.TQueue (TQueue, readTQueue)
 import Control.Monad (forever)
+import Data.Text (Text)
 import qualified Data.Text as T
 import Say (say)
 
+import MsgChan (MsgChan, readMessage)
 import Message (Message(..))
 
 -- | Listens for messages and reacts on them
-handler :: TQueue Message -> IO ()
-handler q = do
+handler :: MsgChan Integer (Message Integer Text) -> IO ()
+handler chn = do
   say "Starting message listener..."
   forever $ do
-    msg <- atomically $ readTQueue q
+    msg <- atomically $ readMessage chn
     case msg of
-      Event c msg -> say $ "Got an event (" <> (T.pack . show) c <> "): " <> msg
+      Event msg c -> say $ "Got an event (" <> (T.pack . show) c <> "): " <> msg
       HeartBeat c -> say $ hb c
   say "done"
   where

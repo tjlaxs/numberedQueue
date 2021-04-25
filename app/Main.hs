@@ -9,17 +9,17 @@ import Say (say)
 import Listener (listener)
 import Handler (handler)
 import HeartBeat (heartBeat)
+import MsgChan (mkMsgChanIO)
 import Utils (seconds)
 
 main :: IO ()
 main = do
   say "helo"
-  q <- newTQueueIO
-  cnt <- newTVarIO 0
+  chn <- mkMsgChanIO
 
-  forkIO $ listener q cnt
-  forkIO $ heartBeat q cnt
-  forkIO $ handler q
+  forkIO $ listener chn
+  forkIO $ heartBeat chn
+  forkIO $ handler chn
 
   -- wait for additional 30 seconds
   threadDelay $ seconds 30
