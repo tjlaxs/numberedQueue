@@ -1,0 +1,78 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 290cdffe219db9b40a7b5840128c5964d00de5fb07d56a363e8a8c4640ad9ba8
+
+name:           numberedQueue
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/tjlaxs/numberedQueue#readme>
+homepage:       https://github.com/tjlaxs/numberedQueue#readme
+bug-reports:    https://github.com/tjlaxs/numberedQueue/issues
+author:         Tero Laxström
+maintainer:     tlax@neonpeons.com
+copyright:      2020 Tero Laxström
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/tjlaxs/numberedQueue
+
+library
+  exposed-modules:
+      Handler
+      HeartBeat
+      Listener
+      Message
+      Utils
+  other-modules:
+      Paths_numberedQueue
+  hs-source-dirs:
+      src
+  default-extensions: OverloadedStrings
+  build-depends:
+      base >=4.7 && <5
+    , say
+    , stm
+    , text
+  default-language: Haskell2010
+
+executable numberedQueue-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_numberedQueue
+  hs-source-dirs:
+      app
+  default-extensions: OverloadedStrings
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , numberedQueue
+    , say
+    , stm
+    , text
+  default-language: Haskell2010
+
+test-suite numberedQueue-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_numberedQueue
+  hs-source-dirs:
+      test
+  default-extensions: OverloadedStrings
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , numberedQueue
+    , say
+    , stm
+    , text
+  default-language: Haskell2010
