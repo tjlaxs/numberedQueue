@@ -24,6 +24,9 @@ dependencies:
 - stm
 - text
 - say
+- warp
+- wai
+- http-types
 
 default-extensions:
 - OverloadedStrings

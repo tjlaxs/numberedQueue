@@ -8,17 +8,26 @@ import Control.Concurrent.STM.TQueue (TQueue, newTQueueIO, readTQueue, writeTQue
 import Control.Concurrent.STM.TVar (TVar)
 import Control.Monad (forever)
 import Data.Text (Text)
+import Network.Wai
+import Network.HTTP.Types
+import Network.Wai.Handler.Warp (run)
 import Say (say)
 
-import Utils (seconds)
 import Message (Message(Event))
 import MsgChan (MsgChan, writeMessage)
 
--- | This "listens" for events and queues them with a counter
+toApp :: MsgChan Integer (Message Integer Text) -> Application
+toApp chn request respond =
+  case rawPathInfo request of
+    "/one" -> do
+      atomically $ writeMessage chn (Event "One")
+      respond $ responseLBS status200 [("Content-Type", "text/plain")] "One"
+    "/two" -> do
+      atomically $ writeMessage chn (Event "Two")
+      respond $ responseLBS status200 [("Content-Type", "text/plain")] "Two"
+    _ -> respond $ responseLBS status404 [("Content-Type", "text/plain")] "404 - Not Found"
+
 listener :: MsgChan Integer (Message Integer Text) -> IO ()
 listener chn = do
-  say "Pretending to listen for messages from outer space..."
-  forever $ do
-    threadDelay $ seconds 3
-    atomically $ writeMessage chn (Event "ALL GLORY TO THE HYPNOTOAD!")
-
+  say "listening for queries on port 8080..."
+  run 8080 $ toApp chn

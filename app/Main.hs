@@ -10,7 +10,6 @@ import Listener (listener)
 import Handler (handler)
 import HeartBeat (heartBeat)
 import MsgChan (mkMsgChanIO)
-import Utils (seconds)
 
 main :: IO ()
 main = do
@@ -22,5 +21,5 @@ main = do
   forkIO $ handler chn
 
   -- wait for additional 30 seconds
-  threadDelay $ seconds 30
+  threadDelay $ 30000000
   say "oleh"

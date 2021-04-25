@@ -10,7 +10,6 @@ import Control.Monad (forever)
 import Data.Text (Text)
 import Say (say)
 
-import Utils (seconds)
 import Message (Message(HeartBeat))
 import MsgChan (MsgChan, writeMessage)
 
@@ -20,4 +19,4 @@ heartBeat chn = do
   say "Starting heart beat..."
   forever $ do
     atomically $ writeMessage chn HeartBeat
-    threadDelay $ seconds 1
+    threadDelay $ 1000000
